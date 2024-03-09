@@ -44,3 +44,11 @@ class User:
         users_collection = db.users
         result = users_collection.update_one({"_id": ObjectId(user_id)}, {"$set": updated_data})
         return result.modified_count
+    
+    @staticmethod
+    def get_followers_model(user_id):
+        users_collection = db.users
+        followers = users_collection.find({"following": user_id})
+        return list(followers)
+
+

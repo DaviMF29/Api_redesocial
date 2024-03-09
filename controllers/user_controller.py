@@ -24,13 +24,17 @@ def create_user_controller(name, username, email, password):
 def add_follower_controller(user_id, friend_id):                                       
     user = User.get_user_by_id_model(user_id)
     friend = User.get_user_by_id_model(friend_id)
-    
+
     if not user or not friend:
         return {"message": "Some user with this id does not exist"}, 404
     
+    if friend_id in user["following"]:
+        return {"message": "This person is already your friend"}
+
     user["following"].append(friend_id)
     friend["followers"].append(user_id)
     User.update_user(user_id, user)
     User.update_user(friend_id, friend)
     return {"message": "Friendship initialized"}, 200
+
 

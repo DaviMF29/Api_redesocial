@@ -34,8 +34,9 @@ def create_user_route():
 def add_follower(user_id):
     data = request.get_json()
     friend_id = data["friend_id"]
-    response, status_code = add_follower_controller(user_id, friend_id)
-    return jsonify(response), status_code
+    response = add_follower_controller(user_id, friend_id)
+    return jsonify(response), 200
+
 
 
 
