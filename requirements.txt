@@ -1,0 +1,8 @@
+flask
+python-dotenv
+psycopg2-binary
+pymongo
+bcrypt
+PyJWT
+flask_jwt_extended
+datetime
