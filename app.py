@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
+from routes.post_routes import posts_app
 from routes.user_routes import users_app
 import os
 
@@ -8,6 +9,7 @@ app.config["JWT_SECRET_KEY"] = os.getenv("SECRET_KEY")
 jwt = JWTManager(app)
 
 # Registrar as rotas do Blueprint dos posts
+app.register_blueprint(posts_app)
 app.register_blueprint(users_app)
 
 if __name__ == "__main__":
