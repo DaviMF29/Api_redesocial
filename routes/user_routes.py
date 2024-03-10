@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, Blueprint
-from controllers.user_controller import login, create_user_controller, add_follower_controller,edit_data_user_controller
+from controllers.user_controller import login, create_user_controller, add_follower_controller,edit_data_user_controller, delete_account_controller
 
 users_app = Blueprint("users_app", __name__)
 
@@ -55,6 +55,11 @@ def edit_data_user(user_id):
     
     response = edit_data_user_controller(user_id, updated_fields)
     return jsonify(response), 200
+
+@users_app.route("/api/users/delete/<string:user_id>",methods=["DELETE"])
+def delete_user(user_id):
+    response = delete_account_controller(user_id)
+    return jsonify(response),200
 
 
 

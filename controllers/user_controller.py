@@ -55,5 +55,16 @@ def edit_data_user_controller(user_id, updated_data):
     return {"message": f"User {user_data} updated"}, 200
 
 
+def delete_account_controller(user_id):
+    user = User.get_user_by_id_model(user_id)
+    print(user)
+    if not user:
+        return {"message": "This user does not exist"}, 404
+    
+    User.delete_account_model(user_id)
+
+    return {"message":"User successfully deleted"}
+
+
 
 
