@@ -40,10 +40,10 @@ class User:
         return user
     
     @staticmethod
-    def update_user(user_id, updated_data):
+    def update_user(user_id, updated_fields):
         users_collection = db.users
-        result = users_collection.update_one({"_id": ObjectId(user_id)}, {"$set": updated_data})
-        return result.modified_count
+        result = users_collection.update_many({"_id": ObjectId(user_id)}, {"$set": updated_fields})
+        return result
     
     @staticmethod
     def get_followers_model(user_id):
