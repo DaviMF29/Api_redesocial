@@ -42,14 +42,19 @@ def add_follower(user_id):
 @users_app.route("/api/users/edit/<string:user_id>", methods=["PATCH"])
 def edit_data_user(user_id):
     data = request.get_json()
-    print(data)
-    if "field" not in data or "change" not in data:
-        return jsonify({"message": "Missing field or change"}), 400
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
     
-    field = data["field"]
-    change = data["change"]
-    response = edit_data_user_controller(user_id, field, change)
-    return jsonify(response),200
+    updated_fields = {}
+    for field in ["name", "username", "email"]:
+        if field in data:
+            updated_fields[field] = data[field]
+    
+    if not updated_fields:
+        return jsonify({"message": "No fields to update"}), 400
+    
+    response = edit_data_user_controller(user_id, updated_fields)
+    return jsonify(response), 200
 
 
 

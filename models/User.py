@@ -40,9 +40,9 @@ class User:
         return user
     
     @staticmethod
-    def update_user(user_id, updated_data):
+    def update_user(user_id, updated_fields):
         users_collection = db.users
-        result = users_collection.find_one_and_update({"_id": ObjectId(user_id)}, {"$set": updated_data})
+        result = users_collection.update_many({"_id": ObjectId(user_id)}, {"$set": updated_fields})
         return result
     
     @staticmethod
