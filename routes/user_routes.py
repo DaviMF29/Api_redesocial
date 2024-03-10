@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, Blueprint
-from controllers.user_controller import login, create_user_controller, add_follower_controller
+from controllers.user_controller import login, create_user_controller, add_follower_controller,edit_data_user_controller
 
 users_app = Blueprint("users_app", __name__)
 
@@ -35,6 +35,25 @@ def add_follower(user_id):
     data = request.get_json()
     friend_id = data["friend_id"]
     response = add_follower_controller(user_id, friend_id)
+    return jsonify(response), 200
+
+
+
+@users_app.route("/api/users/edit/<string:user_id>", methods=["PATCH"])
+def edit_data_user(user_id):
+    data = request.get_json()
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
+    
+    updated_fields = {}
+    for field in ["name", "username", "email"]:
+        if field in data:
+            updated_fields[field] = data[field]
+    
+    if not updated_fields:
+        return jsonify({"message": "No fields to update"}), 400
+    
+    response = edit_data_user_controller(user_id, updated_fields)
     return jsonify(response), 200
 
 
