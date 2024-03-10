@@ -38,3 +38,13 @@ def add_follower_controller(user_id, friend_id):
     return {"message": "Friendship initialized"}, 200
 
 
+def edit_data_user_controller(user_id, field, change):
+    user = User.get_user_by_id_model(user_id)
+    if not user:
+        return {"message": "This user does not exist"}, 404
+    User.update_user(user_id, {field: change})
+    return {"message": "User updated"}, 200
+
+
+
+
