@@ -1,5 +1,4 @@
 from pymongo import MongoClient
-from bson import ObjectId
 import os
 from enum import Enum
 
@@ -11,6 +10,7 @@ class NotificationType(Enum):
     MESSAGE_RECEIVED = "message_received"
     POST_LIKED = "post_liked"
     POST_COMMENTED = "post_commented"
+    LONG_TIME_NO_POST = "user_no_posting"
 
 class Notification:
 

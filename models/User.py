@@ -50,5 +50,11 @@ class User:
         users_collection = db.users
         followers = users_collection.find({"following": user_id})
         return list(followers)
+    
+    @staticmethod
+    def delete_account_model(user_id):
+        users_collection = db.users
+        result = users_collection.find_one_and_delete({"_id": ObjectId(user_id)})
+        return result
 
 
