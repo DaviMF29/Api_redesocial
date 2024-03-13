@@ -33,3 +33,15 @@ class Post:
         posts_collection = db.posts
         post = posts_collection.find({"user_id":user_id})
         return post
+    
+    @staticmethod
+    def delete_post_by_id_model(post_id):
+        posts_collection = db.posts
+        post = posts_collection.find_one_and_delete({"_id":ObjectId(post_id)})
+        return post
+    
+    @staticmethod
+    def delete_all_posts_by_user_id_model(user_id):
+        posts_collection = db.posts
+        result = posts_collection.delete_many({"user_id": user_id})
+        return result.deleted_count

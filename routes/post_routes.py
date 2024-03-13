@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from controllers.post_controller import add_comment_controller, update_likes_count_controller, create_post_controller, get_post_by_id_controller
+from controllers.post_controller import add_comment_controller, update_likes_count_controller, create_post_controller, get_post_by_id_controller,delete_post_controller, delete_all_posts_from_user_id_controller
 
 posts_app = Blueprint("posts_app", __name__)
 
@@ -47,3 +47,14 @@ def create_post_route():
 def get_post_by_id_route(post_id):
     response, status_code = get_post_by_id_controller(post_id)
     return jsonify(response), status_code
+
+
+@posts_app.route("/api/posts/<string:post_id>",methods=["DELETE"])
+def delete_post_by_id_route(post_id):
+    response = delete_post_controller(post_id)
+    return jsonify(response)
+
+@posts_app.route("/api/post/deleteAllFromUser/<string:user_id>",methods=["DELETE"])
+def delete_all_posts_from_user_id(user_id):
+    response = delete_all_posts_from_user_id_controller(user_id)
+    return jsonify(response)

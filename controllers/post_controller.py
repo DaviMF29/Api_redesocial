@@ -3,14 +3,20 @@ from flask_jwt_extended import create_access_token  #TALVEZ USE PARA AUTENTICAR 
 from flask import request
 from werkzeug.utils import secure_filename
 import os
+from models.User import User  # Importe o modelo de usuário
 
 def create_post_controller(user_id, username, text, image_path=None):
+    user = User.get_user_by_id_model(user_id)
+    if not user:
+        return {"error": "User does not exist"}, 404
+
     if image_path is None and "image" in request.files:
         image = request.files["image"]
         image_path = save_image(image)
     
     post_id = Post.create_post_model(user_id, username, text, image_path)
     return {"id": str(post_id), "message": f"Post created"}, 201
+
 
 
 def get_post_by_id_controller(post_id):                   #importar o método direto de um model quebraria o modelo MVC (!?)
@@ -66,7 +72,22 @@ def update_likes_count_controller(post_id, action, user_id):
     return {"message": "Like updated successfully"}, 200
 
 
+def delete_post_controller(post_id):
+    post = Post.get_post_by_id_model(post_id)
+    if not post:
+        return {"message":"This post does not exist"},404
+    
+    Post.delete_post_by_id_model(post_id)
+    return {"message":"Post successfully deleted"}
 
+
+def delete_all_posts_from_user_id_controller(user_id):
+    post = Post.delete_all_posts_by_user_id_model(user_id)
+    if not post:
+        return {"message":"This user do not have post ou dont exist"}
+    
+    Post.delete_all_posts_by_user_id_model(user_id)
+    return {"message":"Posts successfully deleted"}
 
 #-----------------------------------------------------------------------------#
 
