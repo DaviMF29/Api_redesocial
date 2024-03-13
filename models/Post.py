@@ -33,3 +33,9 @@ class Post:
         posts_collection = db.posts
         post = posts_collection.find({"user_id":user_id})
         return post
+    
+    @staticmethod
+    def update_post(post_id, updated_fields):
+        posts_collection = db.posts
+        result = posts_collection.update_one({"_id": ObjectId(post_id)}, {"$set": updated_fields})
+        return result
